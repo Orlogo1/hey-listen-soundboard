@@ -1,4 +1,4 @@
-const CACHE = 'pocket-fairy-v4';
+const CACHE = 'pocket-fairy-v5';
 const APP_SHELL = [
   './',
   './index.html',

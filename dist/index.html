@@ -44,13 +44,16 @@
         </div>
         <label class="file-button" for="audioPicker">Add local audio</label>
         <input id="audioPicker" type="file" accept="audio/*,.mp3,.m4a,.wav,.ogg" multiple />
-        <label class="select-wrap" for="soundSelect">
-          <span>Sound library</span>
-          <select id="soundSelect">
-            <option value="native:hey-listen">Hey! Listen! — built in</option>
-            <option value="demo">Demo chime</option>
-          </select>
-        </label>
+        <div class="select-wrap">
+          <label for="soundSelect">Sound library</label>
+          <div class="select-row">
+            <select id="soundSelect">
+              <option value="native:hey-listen">Hey! Listen! — built in</option>
+              <option value="demo">Demo chime</option>
+            </select>
+            <button class="remove-sound" id="removeLocalButton" type="button" aria-label="Remove selected local audio" title="Remove selected local audio" hidden>×</button>
+          </div>
+        </div>
       </section>
 
       <button class="install-button" id="installButton" type="button" hidden>

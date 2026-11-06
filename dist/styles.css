@@ -184,6 +184,7 @@ input[type="file"] { position: absolute; width: 1px; height: 1px; overflow: hidd
 }
 .file-button:focus-within, .file-button:hover { background: #fff; }
 .select-wrap { grid-column: 1 / -1; display: flex; flex-direction: column; gap: 6px; margin-top: 3px; color: var(--muted); font-size: .64rem; font-weight: 700; letter-spacing: .06em; text-transform: uppercase; }
+.select-row { display: grid; grid-template-columns: minmax(0, 1fr) auto; gap: 8px; align-items: center; }
 .select-wrap select {
   width: 100%;
   min-height: 43px;
@@ -201,6 +202,20 @@ input[type="file"] { position: absolute; width: 1px; height: 1px; overflow: hidd
 }
 .select-wrap select:hover { border-color: rgba(185,255,209,.48); }
 .select-wrap select:focus-visible { outline: 2px solid var(--gold); outline-offset: 2px; }
+.remove-sound {
+  width: 43px;
+  height: 43px;
+  border: 1px solid rgba(255, 145, 122, .35);
+  border-radius: 12px;
+  padding: 0 0 3px;
+  color: #ffc0b2;
+  background: rgba(73, 13, 8, .36);
+  font: 400 1.55rem/1 Georgia, serif;
+  cursor: pointer;
+}
+.remove-sound:hover { border-color: rgba(255, 145, 122, .72); color: #fff; background: rgba(122, 24, 16, .45); }
+.remove-sound:focus-visible { outline: 2px solid #ffc0b2; outline-offset: 2px; }
+.remove-sound[hidden] { display: none; }
 .install-button { margin-top: 14px; color: var(--ink); background: transparent; border: 1px solid rgba(185,255,209,.32); }
 
 footer {

@@ -2,6 +2,7 @@ const playButton = document.querySelector('#playButton');
 const audioPicker = document.querySelector('#audioPicker');
 const audioPlayer = document.querySelector('#audioPlayer');
 const soundSelect = document.querySelector('#soundSelect');
+const removeLocalButton = document.querySelector('#removeLocalButton');
 const status = document.querySelector('#status');
 const installButton = document.querySelector('#installButton');
 
@@ -46,18 +47,30 @@ async function loadClips() {
       if (keysRequest.readyState !== 'done') return;
       resolve(recordsRequest.result.map((record, index) => ({
         ...record,
-        id: record.id || String(keysRequest.result[index]).replace(/^local:/, '')
+        id: record.id || String(keysRequest.result[index]).replace(/^local:/, ''),
+        storageKey: keysRequest.result[index]
       })).filter((record) => record.blob));
     };
     keysRequest.onsuccess = () => {
       if (recordsRequest.readyState !== 'done') return;
       resolve(recordsRequest.result.map((record, index) => ({
         ...record,
-        id: record.id || String(keysRequest.result[index]).replace(/^local:/, '')
+        id: record.id || String(keysRequest.result[index]).replace(/^local:/, ''),
+        storageKey: keysRequest.result[index]
       })).filter((record) => record.blob));
     };
     recordsRequest.onerror = () => reject(recordsRequest.error);
     keysRequest.onerror = () => reject(keysRequest.error);
+  });
+}
+
+async function removeClip(record) {
+  const db = await openDatabase();
+  const transaction = db.transaction(STORE_NAME, 'readwrite');
+  transaction.objectStore(STORE_NAME).delete(record.storageKey || `local:${record.id}`);
+  return new Promise((resolve, reject) => {
+    transaction.oncomplete = resolve;
+    transaction.onerror = () => reject(transaction.error);
   });
 }
 
@@ -94,6 +107,7 @@ function populateSoundSelect() {
   });
 
   if ([...soundSelect.options].some((option) => option.value === soundMode)) soundSelect.value = soundMode;
+  removeLocalButton.hidden = !soundMode.startsWith('local:');
 }
 
 function clearObjectUrl() {
@@ -210,6 +224,20 @@ soundSelect.addEventListener('change', () => {
     if (localSound) return useLocalClip(localSound);
   }
   if (soundSelect.value.startsWith('native:')) return useNativeClip(soundSelect.value.slice(7));
+});
+
+removeLocalButton.addEventListener('click', async () => {
+  if (!soundMode.startsWith('local:')) return;
+  const record = localSounds.find((sound) => `local:${sound.id}` === soundMode);
+  if (!record) return;
+  try {
+    await removeClip(record);
+    localSounds = localSounds.filter((sound) => sound !== record);
+    useNativeClip('hey-listen');
+    status.textContent = `Removed ${record.name || 'local audio'}`;
+  } catch {
+    status.textContent = 'Could not remove that local sound';
+  }
 });
 
 window.addEventListener('beforeinstallprompt', (event) => {
