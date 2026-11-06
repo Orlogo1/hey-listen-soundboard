@@ -14,9 +14,7 @@ Serve the `dist` directory with any static web server. Service workers and insta
 
 ## GitHub Pages
 
-1. Push the contents of this folder to a GitHub repository.
-2. In **Settings → Pages**, choose **Deploy from a branch**.
-3. Select your branch and the `/dist` folder, then save.
+The included `.github/workflows/pages.yml` workflow publishes `dist/` whenever `main` changes. In **Settings → Pages**, set the source to **GitHub Actions** once; later pushes deploy automatically.
 
 All browser assets use relative paths, so the site works from a GitHub Pages project subdirectory.
 
