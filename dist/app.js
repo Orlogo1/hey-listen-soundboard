@@ -247,7 +247,10 @@ window.addEventListener('beforeinstallprompt', (event) => {
 });
 
 installButton.addEventListener('click', async () => {
-  if (!installPrompt) return;
+  if (!installPrompt) {
+    status.textContent = 'Open your browser menu and choose “Install app” or “Add to Home Screen”.';
+    return;
+  }
   installPrompt.prompt();
   await installPrompt.userChoice;
   installPrompt = null;
