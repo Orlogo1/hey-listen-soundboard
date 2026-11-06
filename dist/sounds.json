@@ -1,0 +1,9 @@
+{
+  "sounds": [
+    {
+      "id": "hey-listen",
+      "label": "Hey! Listen!",
+      "src": "./assets/hey-listen.wav"
+    }
+  ]
+}
